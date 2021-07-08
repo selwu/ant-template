@@ -1,5 +1,14 @@
 function get(obj, path, defaultValue) {
-  console.log(obj['a']["b"]);
+  return path.split('.').reduce((res, item) => {
+    if (res === undefined) {
+      return undefined;
+    }
+    if(res[item] === undefined && defaultValue) {
+      return defaultValue;
+    } 
+    return res[item];
+  }, obj)
+
 }
 
 const obj = { 
@@ -11,4 +20,4 @@ a: {
 }
 };
 
-get(obj, 'a.b');
+console.log(get(obj, 'a.b.x', 'ok'));
