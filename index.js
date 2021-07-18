@@ -1,34 +1,30 @@
-const graph = {};
-graph.a = ['b', 'd', 'c', 'j'];
-graph.b = ['a', 'c', 'e', 'k'];
-graph.c = ['b', 'f', 'l', 'a'];
-graph.d = ['a', 'e', 'f', 'g'];
-graph.e = ['b', 'd', 'h', 'f'];
-graph.f = ['c', 'e', 'i', 'd'];
-graph.g = ['d', 'i', 'g', 'h'];
-graph.h = ['e', 'i', 'k', 'g'];
-graph.i = ['f', 'l', 'h', 'g'];
-graph.j = ['g', 'k', 'a', 'l'];
-graph.k = ['j', 'l', 'h', 'b'];
-graph.l = ['i', 'k', 'j', 'c'];
+const martix = [
+  [0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+  [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
+  [1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+  [0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
+  [0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0],
+  [0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+  [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+  [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1],
+  [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+  [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0],
+];
 
-function go(graph, start, end) {
-  let queue = [];
-  queue.push(start);
-  let count = 0;
-  while (queue.length > 0) {
-    const current = queue.shift();
-    if (!graph[current]) {
-      return (graph[current] = []);
-    }
-    if (graph[current].includes(end)) {
-      return count;
-    } else {
-      count += 1;
+const getFriends = (martix, button, round) => {
+  const friends = [];
 
-      queue = [...queue, ...graph[current]];
-    }
+  if (round === 0) {
+    return;
   }
-}
+  martix[button].forEach((item, index) => {
+    if (item) {
+      friends.push(index);
+    }
+  });
+  return friends;
+};
 
-console.log(go(graph, 'k', 'f'));
+console.log(getFriends(martix, 7, 1));
