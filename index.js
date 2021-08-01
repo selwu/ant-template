@@ -1,131 +1,126 @@
-// const martix = [
-//   [0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0],
-//   [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-//   [1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
-//   [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-//   [0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
-//   [0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0],
-//   [0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0],
-//   [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-//   [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1],
-//   [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1],
-//   [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
-//   [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0],
-// ];
+const mobileRemote = (text) => {
+  const button = {};
+  const graph = {};
+  const one = ['1'];
+  const two = ['2', 'a', 'b', 'c'];
+  const three = ['3', 'd', 'e', 'f'];
+  const four = ['4', 'g', 'h', 'i'];
+  const five = ['5', 'j', 'k', 'l'];
+  const six = ['6', 'm', 'n', 'o'];
+  const seven = ['7', 'p', 'q', 'r', 's'];
+  const eight = ['8', 't', 'u', 'v'];
+  const nine = ['9 ', 'w', 'x', 'y', 'z'];
+  const ten = ['*'];
+  const eleven = ['0'];
+  const twelve = ['#'];
 
-// const getFriends = (martix, button, round) => {
-//   const friends = [];
+  const arrButtons = [
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine,
+    ten,
+    eleven,
+    twelve,
+  ];
 
-//   if (round === 0) {
-//     return;
-//   }
-//   martix[button].forEach((item, index) => {
-//     if (item) {
-//       friends.push(index);
-//     }
-//   });
-//   return friends;
-// };
+  const matrix = [
+    [0, two, three, four, 0, 0, 0, 0, 0, ten, 0, 0],
+    [one, 0, three, 0, five, 0, 0, 0, 0, 0, eleven, 0],
+    [one, two, 0, 0, 0, six, 0, 0, 0, 0, 0, twelve],
+    [one, 0, 0, 0, five, six, seven, 0, 0, 0, 0, 0],
+    [0, two, 0, four, 0, six, 0, eight, 0, 0, 0, 0],
+    [0, 0, three, four, five, 0, 0, 0, nine, 0, 0, 0],
+    [0, 0, 0, four, 0, 0, 0, eight, nine, ten, 0, 0],
+    [0, 0, 0, 0, five, 0, seven, 0, nine, 0, eleven, 0],
+    [0, 0, 0, 0, 0, six, seven, eight, 0, 0, 0, twelve],
+    [one, 0, 0, 0, 0, 0, seven, 0, 0, 0, eleven, twelve],
+    [0, two, 0, 0, 0, 0, 0, eight, 0, ten, 0, twelve],
+    [0, 0, three, 0, 0, 0, 0, 0, nine, ten, eleven, 0],
+  ];
 
-// console.log(getFriends(martix, 7, 1));
-
-function clock() {
-  var now = new Date();
-  var ctx = document.getElementById('canvas').getContext('2d');
-  ctx.save();
-  ctx.clearRect(0, 0, 150, 150);
-  ctx.translate(75, 75);
-  ctx.scale(0.4, 0.4);
-  ctx.rotate(-Math.PI / 2);
-  ctx.strokeStyle = 'black';
-  ctx.fillStyle = 'white';
-  ctx.lineWidth = 8;
-  ctx.lineCap = 'round';
-
-  // Hour marks
-  ctx.save();
-  for (var i = 0; i < 12; i++) {
-    ctx.beginPath();
-    ctx.rotate(Math.PI / 6);
-    ctx.moveTo(100, 0);
-    ctx.lineTo(120, 0);
-    ctx.stroke();
+  function search(button) {
+    const result = [];
+    matrix[button].forEach((item, index) => {
+      if (item) {
+        result.push(item);
+      }
+    });
+    return result;
   }
-  ctx.restore();
 
-  // Minute marks
-  ctx.save();
-  ctx.lineWidth = 5;
-  for (i = 0; i < 60; i++) {
-    if (i % 5 != 0) {
-      ctx.beginPath();
-      ctx.moveTo(117, 0);
-      ctx.lineTo(120, 0);
-      ctx.stroke();
-    }
-    ctx.rotate(Math.PI / 30);
+  function searchRepeat(first, second) {
+    return arrButtons.filter((item) => {
+      return !second.includes(item) && item !== first;
+    });
   }
-  ctx.restore();
 
-  var sec = now.getSeconds();
-  var min = now.getMinutes();
-  var hr = now.getHours();
-  hr = hr >= 12 ? hr - 12 : hr;
+  graph.one = {
+    1: [one],
+    2: [two, three, four, ten],
+    3: [searchRepeat(one, search(0))],
+  };
+  graph.two = {
+    1: [two],
+    2: [one, three, four, eleven],
+    3: [searchRepeat(two, search(1))],
+  };
+  graph.three = {
+    1: [three],
+    2: [search(2)],
+    3: [searchRepeat(three, search(2))],
+  };
+  graph.four = {
+    1: [four],
+    2: [search(3)],
+    3: [searchRepeat(four, search(3))],
+  };
+  graph.five = {
+    1: [five],
+    2: [search(4)],
+    3: [searchRepeat(five, search(4))],
+  };
+  graph.six = {
+    1: [six],
+    2: [search(5)],
+    3: [searchRepeat(six, search(5))],
+  };
+  graph.seven = {
+    1: [seven],
+    2: [search(6)],
+    3: [searchRepeat(seven, search(6))],
+  };
+  graph.eight = {
+    1: [eight],
+    2: [search(7)],
+    3: [searchRepeat(eight, search(7))],
+  };
+  graph.nine = {
+    1: [nine],
+    2: [search(8)],
+    3: [searchRepeat(nine, search(8))],
+  };
+  graph.ten = {
+    1: [ten],
+    2: [search(9)],
+    3: [searchRepeat(ten, search(9))],
+  };
+  graph.eleven = {
+    1: [eleven],
+    2: [search(10)],
+    3: [searchRepeat(eleven, search(10))],
+  };
+  graph.twelve = {
+    1: [twelve],
+    2: [search(11)],
+    3: [searchRepeat(twelve, search(11))],
+  };
+};
 
-  ctx.fillStyle = 'black';
-
-  // write Hours
-  ctx.save();
-  ctx.rotate(
-    hr * (Math.PI / 6) + (Math.PI / 360) * min + (Math.PI / 21600) * sec
-  );
-  ctx.lineWidth = 14;
-  ctx.beginPath();
-  ctx.moveTo(-20, 0);
-  ctx.lineTo(80, 0);
-  ctx.stroke();
-  ctx.restore();
-
-  // write Minutes
-  ctx.save();
-  ctx.rotate((Math.PI / 30) * min + (Math.PI / 1800) * sec);
-  ctx.lineWidth = 10;
-  ctx.beginPath();
-  ctx.moveTo(-28, 0);
-  ctx.lineTo(112, 0);
-  ctx.stroke();
-  ctx.restore();
-
-  // Write seconds
-  ctx.save();
-  ctx.rotate((sec * Math.PI) / 30);
-  ctx.strokeStyle = '#D40000';
-  ctx.fillStyle = '#D40000';
-  ctx.lineWidth = 6;
-  ctx.beginPath();
-  ctx.moveTo(-30, 0);
-  ctx.lineTo(83, 0);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(0, 0, 10, 0, Math.PI * 2, true);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.arc(95, 0, 10, 0, Math.PI * 2, true);
-  ctx.stroke();
-  ctx.fillStyle = 'rgba(0,0,0,0)';
-  ctx.arc(0, 0, 3, 0, Math.PI * 2, true);
-  ctx.fill();
-  ctx.restore();
-
-  ctx.beginPath();
-  ctx.lineWidth = 14;
-  ctx.strokeStyle = '#325FA2';
-  ctx.arc(0, 0, 142, 0, Math.PI * 2, true);
-  ctx.stroke();
-
-  ctx.restore();
-
-  window.requestAnimationFrame(clock);
-}
-
-window.requestAnimationFrame(clock);
+console.log(mobileRemote('c')); // 6
+console.log(mobileRemote('yandex')); // 34
