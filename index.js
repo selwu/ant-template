@@ -1,5 +1,4 @@
 const mobileRemote = (text) => {
-  const button = {};
   const graph = {};
   const one = ['1'];
   const two = ['2', 'a', 'b', 'c'];
@@ -120,7 +119,25 @@ const mobileRemote = (text) => {
     2: [search(11)],
     3: [searchRepeat(twelve, search(11))],
   };
+
+  let cash = graph.one;
+  let resultItem = 0;
+
+  Object.keys(cash).forEach((item, indexOne) => {
+    cash[item].forEach((item, indexTwo) => {
+      console.log('itemCash: ', item);
+      console.log('Text: ', indexTwo);
+
+      if (item.includes(text)) {
+        console.log('!!!!!', indexOne);
+
+        resultItem = indexOne;
+      }
+    });
+  });
+
+  return resultItem;
 };
 
 console.log(mobileRemote('c')); // 6
-console.log(mobileRemote('yandex')); // 34
+// console.log(mobileRemote('yandex')); // 34
