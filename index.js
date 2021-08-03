@@ -62,82 +62,85 @@ const mobileRemote = (text) => {
   graph.one = {
     1: [one],
     2: [two, three, four, ten],
-    3: [searchRepeat(one, search(0))],
+    3: [...searchRepeat(one, search(0))],
   };
   graph.two = {
     1: [two],
     2: [one, three, four, eleven],
-    3: [searchRepeat(two, search(1))],
+    3: [...searchRepeat(two, search(1))],
   };
   graph.three = {
     1: [three],
     2: [search(2)],
-    3: [searchRepeat(three, search(2))],
+    3: [...searchRepeat(three, search(2))],
   };
   graph.four = {
     1: [four],
     2: [search(3)],
-    3: [searchRepeat(four, search(3))],
+    3: [...searchRepeat(four, search(3))],
   };
   graph.five = {
     1: [five],
     2: [search(4)],
-    3: [searchRepeat(five, search(4))],
+    3: [...searchRepeat(five, search(4))],
   };
   graph.six = {
     1: [six],
     2: [search(5)],
-    3: [searchRepeat(six, search(5))],
+    3: [...searchRepeat(six, search(5))],
   };
   graph.seven = {
     1: [seven],
     2: [search(6)],
-    3: [searchRepeat(seven, search(6))],
+    3: [...searchRepeat(seven, search(6))],
   };
   graph.eight = {
     1: [eight],
     2: [search(7)],
-    3: [searchRepeat(eight, search(7))],
+    3: [...searchRepeat(eight, search(7))],
   };
   graph.nine = {
     1: [nine],
     2: [search(8)],
-    3: [searchRepeat(nine, search(8))],
+    3: [...searchRepeat(nine, search(8))],
   };
   graph.ten = {
     1: [ten],
     2: [search(9)],
-    3: [searchRepeat(ten, search(9))],
+    3: [...searchRepeat(ten, search(9))],
   };
   graph.eleven = {
     1: [eleven],
     2: [search(10)],
-    3: [searchRepeat(eleven, search(10))],
+    3: [...searchRepeat(eleven, search(10))],
   };
   graph.twelve = {
     1: [twelve],
     2: [search(11)],
-    3: [searchRepeat(twelve, search(11))],
+    3: [...searchRepeat(twelve, search(11))],
   };
 
   let cash = graph.one;
-  let resultItem = 0;
 
-  Object.keys(cash).forEach((item, indexOne) => {
-    cash[item].forEach((item, indexTwo) => {
-      console.log('itemCash: ', item);
-      console.log('Text: ', indexTwo);
-
-      if (item.includes(text)) {
-        console.log('!!!!!', indexOne);
-
-        resultItem = indexOne;
-      }
+  const searchSymbol = (symbol) => {
+    let resultItem = 0;
+    Object.keys(cash).forEach((item, indexOne) => {
+      cash[item].forEach((item, indexTwo) => {
+        item.forEach((ItemSymbol, indexThree) => {
+          if (symbol === ItemSymbol) {
+            resultItem += indexOne + indexThree + 2;
+          }
+        });
+        console.log('itemCash: ', item);
+        console.log('Text: ', indexTwo);
+      });
     });
-  });
 
-  return resultItem;
+    return resultItem;
+  };
+
+  return searchSymbol(text);
 };
 
-console.log(mobileRemote('c')); // 6
+console.log(mobileRemote('1')); // 6
 // console.log(mobileRemote('yandex')); // 34
