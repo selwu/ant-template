@@ -1,4 +1,6 @@
 const mobileRemote = (text) => {
+  const textArr = text.split('');
+  let countResult = 0;
   const graph = {};
   const zero = ['1'];
   const one = ['2', 'a', 'b', 'c'];
@@ -28,6 +30,13 @@ const mobileRemote = (text) => {
     eleven,
   ];
 
+  function searchButton(symbol) {
+    const result = arrButtons.findIndex((item) => {
+      return item.includes(symbol);
+    });
+    return result;
+  }
+
   const matrix = [
     [0, one, two, three, 0, 0, 0, 0, 0, nine, 0, 0],
     [zero, 0, two, 0, four, 0, 0, 0, 0, 0, ten, 0],
@@ -53,103 +62,125 @@ const mobileRemote = (text) => {
     return result;
   }
 
-  function searchTwo(button) {
-    const repeat = [];
+  function searchIndex(button) {
     let indexID = [];
-    const result = [];
     matrix[button].forEach((item, indexOne) => {
       if (item) {
-        // console.log('indexOne: ', indexOne);
-
+        indexID.push(indexOne);
         matrix[indexOne].forEach((item, index) => {
           if (item) {
-            console.log(index, indexOne);
+            indexID.push(index);
+          }
+        });
+      }
+    });
+    return (indexID = [...new Set(indexID)]);
+  }
 
+  function searchTwo(button) {
+    const repeat = [button];
+    let indexID = [];
+    matrix[button].forEach((item, indexOne) => {
+      if (item) {
+        repeat.push(indexOne);
+        matrix[indexOne].forEach((item, index) => {
+          if (item) {
             indexID.push(index);
           }
         });
       }
     });
     indexID = [...new Set(indexID)];
-    console.log('indexID: ', indexID);
+    indexID = indexID.filter((item) => {
+      return !repeat.includes(item);
+    });
 
     return indexID.map((item) => {
       return arrButtons[item];
     });
   }
 
-  console.log('searchTwo: ', searchTwo(4));
-  console.log('searchOne: ', searchOne(4));
-
-  function searchRepeat(first, second) {
-    return arrButtons.filter((item) => {
-      return !second.includes(item) && item !== first;
+  function searchThree(button) {
+    const arr = searchIndex(button);
+    return arrButtons.filter((item, index) => {
+      return !arr.includes(index);
     });
   }
 
-  graph.zero = {
+  graph[0] = {
     1: [zero],
     2: [...searchOne(0)],
-    3: [...searchRepeat(zero, searchOne(0))],
-    4: [],
+    3: [...searchTwo(0)],
+    4: [...searchThree(0)],
   };
-  graph.one = {
+  graph[1] = {
     1: [one],
     2: [...searchOne(1)],
-    3: [...searchRepeat(one, searchOne(1))],
+    3: [...searchTwo(1)],
+    4: [...searchThree(1)],
   };
-  graph.two = {
+  graph[2] = {
     1: [two],
     2: [...searchOne(2)],
-    3: [...searchRepeat(two, searchOne(2))],
+    3: [...searchTwo(2)],
+    4: [...searchThree(2)],
   };
-  graph.three = {
+  graph[3] = {
     1: [three],
     2: [...searchOne(3)],
-    3: [...searchRepeat(three, searchOne(3))],
+    3: [...searchTwo(3)],
+    4: [...searchThree(3)],
   };
-  graph.four = {
+  graph[4] = {
     1: [four],
     2: [...searchOne(4)],
-    3: [...searchRepeat(four, searchOne(4))],
+    3: [...searchTwo(4)],
+    4: [...searchThree(4)],
   };
-  graph.five = {
+  graph[5] = {
     1: [five],
     2: [...searchOne(5)],
-    3: [...searchRepeat(five, searchOne(5))],
+    3: [...searchTwo(5)],
+    4: [...searchThree(5)],
   };
-  graph.six = {
+  graph[6] = {
     1: [six],
     2: [...searchOne(6)],
-    3: [...searchRepeat(six, searchOne(6))],
+    3: [...searchTwo(6)],
+    4: [...searchThree(6)],
   };
-  graph.seven = {
+  graph[7] = {
     1: [seven],
     2: [...searchOne(7)],
-    3: [...searchRepeat(seven, searchOne(7))],
+    3: [...searchTwo(7)],
+    4: [...searchThree(7)],
   };
-  graph.eight = {
+  graph[8] = {
     1: [eight],
     2: [...searchOne(8)],
-    3: [...searchRepeat(eight, searchOne(8))],
+    3: [...searchTwo(8)],
+    4: [...searchThree(8)],
   };
-  graph.nine = {
+  graph[9] = {
     1: [nine],
     2: [...searchOne(9)],
-    3: [...searchRepeat(nine, searchOne(9))],
+    3: [...searchTwo(9)],
+    4: [...searchThree(9)],
   };
-  graph.ten = {
+  graph[10] = {
     1: [ten],
     2: [...searchOne(10)],
-    3: [...searchRepeat(ten, searchOne(10))],
+    3: [...searchTwo(10)],
+    4: [...searchThree(10)],
   };
-  graph.eleven = {
+  graph[11] = {
     1: [eleven],
     2: [...searchOne(11)],
-    3: [...searchRepeat(eleven, searchOne(11))],
+    3: [...searchTwo(11)],
+    4: [...searchThree(11)],
   };
 
-  let cash = graph.zero;
+  let cash = graph[0];
 
   const searchSymbol = (symbol) => {
     let resultItem = 0;
@@ -166,16 +197,19 @@ const mobileRemote = (text) => {
             resultItem = indexThree + 5;
           }
         });
-        // console.log('itemTwo: ', itemTwo);
-        // console.log('Text: ', indexTwo);
       });
     });
-
+    cash = graph[searchButton(symbol)];
     return resultItem;
   };
 
-  return searchSymbol(text);
+  textArr.forEach((item, index) => {
+    const result = searchSymbol(item);
+    countResult += result;
+  });
+
+  return countResult;
 };
 
-console.log(mobileRemote('y')); // 6
-// console.log(mobileRemote('yandex')); // 34
+// console.log(mobileRemote('a')); // 6
+console.log(mobileRemote('1')); // 34
