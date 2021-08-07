@@ -4,6 +4,7 @@ const left = document.addEventListener('keydown', leftHandler);
 const right = document.addEventListener('keydown', rightHandler);
 const up = document.addEventListener('keydown', upHandler);
 const down = document.addEventListener('keydown', downHandler);
+const MOVE_INT = 25;
 
 function leftHandler(event) {
   if (event.code === 'ArrowLeft') {
@@ -32,6 +33,14 @@ function downHandler(event) {
 canvas.width = 400;
 canvas.height = 400;
 context.strokeStyle = '#fff';
+
+const xL = 120;
+const yL = 144;
+const yLL = 294;
+const xLT = 150;
+const xLB = 250;
+const xLR = 280;
+const yLT = 114;
 
 requestAnimationFrame(tick);
 function tick() {
