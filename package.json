@@ -2,8 +2,8 @@
   "name": "traning",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel index.html",
     "build": "parcel build index.html"
   },
@@ -11,17 +11,14 @@
     "type": "git",
     "url": "git+https://github.com/selwu/traning.git"
   },
-  "author": "Alexander Dolgikh",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/selwu/traning/issues"
   },
   "homepage": "https://github.com/selwu/traning#readme",
   "devDependencies": {
-    "autoprefixer": "^10.3.1",
-    "parcel": "^2.0.0-rc.0",
-    "postcss": "^8.3.6",
-    "postcss-import": "^14.0.2",
-    "postcss-modules": "^4.2.2"
+    "parcel": "^2.0.0-rc.0"
   }
 }

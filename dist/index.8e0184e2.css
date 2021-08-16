@@ -1,0 +1,13 @@
+.section {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.section__name {
+  width: 30px;
+  height: 30px;
+  background-color: tomato;
+}
+
+/*# sourceMappingURL=index.8e0184e2.css.map */
