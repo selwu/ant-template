@@ -1,3 +1,1 @@
 # traning
-
-test deploy
